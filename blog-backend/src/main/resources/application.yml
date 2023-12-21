@@ -1,0 +1,34 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  cache:
+    cache-names:
+      - rate-limit-bucket
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: ${SERVER_PORT}
+  servlet:
+    context-path: ${API_PATH}
+
+bucket4j:
+  cache-to-use: jcache
+  enabled: true
+  filters:
+    - cache-name: rate-limit-bucket
+      url: .*
+      rate-limits:
+        - cache-key: getHeader("CF-Connecting-IP") # IP based filter (assumes you're using Cloudflare)
+          bandwidths: # max 10 reqs per second
+            - capacity: 100
+              time: 10
+              unit: seconds

@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -51,11 +53,21 @@ public class AuthService {
                 () -> new UsernameNotFoundException("User not found")
         );
         ResponseCookie cookie = jwtService.generateTokenCookie(user.getUsername());
+        Date expiresAt = new Date(System.currentTimeMillis() + cookie.getMaxAge().toMillis());
+        ResponseCookie expiresAtCookie = ResponseCookie
+                .from("accessTokenExpiresAt", String.valueOf(expiresAt.getTime()))
+                .path("/")
+                .httpOnly(true)
+                .secure(false)
+                .maxAge(cookie.getMaxAge())
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, expiresAtCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return AuthResponse
                 .builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .expriesAt(expiresAt)
                 .build();
     }
 

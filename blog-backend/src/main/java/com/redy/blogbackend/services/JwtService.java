@@ -23,11 +23,11 @@ public class JwtService {
     private String API_PATH;
 
     public ResponseCookie generateTokenCookie(String username) {
-        Date expiry = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
+        long maxAgeSeconds = 3600 * 24;
         String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiry)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * maxAgeSeconds))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
         return ResponseCookie.from("accessToken", token)
@@ -35,6 +35,7 @@ public class JwtService {
                 .secure(false)
                 .sameSite("strict")
                 .path(API_PATH)
+                .maxAge(maxAgeSeconds)
                 .build();
     }
 

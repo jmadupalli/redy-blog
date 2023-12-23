@@ -1,27 +1,38 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { loginUser, ApiError } from "../../_api/apiUtils";
-import { AxiosResponse } from "axios";
+import { loginUser } from "../../_providers/api/apiUtils";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { UserState, login } from "../../_providers/slices/userSlice";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    const response = (await loginUser(formData).catch((e: ApiError) => {
-      console.error(e.response?.data.message);
-    })) as AxiosResponse;
+
+    const response = await loginUser(formData);
+
     if (response && response.status == 200) {
+      toast.success("Login successful");
+      const userResponse = await response.json();
       localStorage &&
-        localStorage.setItem("userInfo", JSON.stringify(response.data));
+        localStorage.setItem("userInfo", JSON.stringify(userResponse));
+      dispatch(login(userResponse as UserState));
       router.push("/user/dash");
+    } else {
+      const error = (await response.json()) as {
+        message: string;
+        status: number;
+      };
+      toast.error(error.message);
     }
   };
 

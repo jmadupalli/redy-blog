@@ -1,8 +1,12 @@
 "use client";
 
+import { useGetUserPostsQueryQuery } from "@/app/_providers/api/blogApi";
 import Link from "next/link";
+import Loading from "./Loading";
+import BlogRow from "./BlogRow";
 
 export function BlogTable() {
+  const posts = useGetUserPostsQueryQuery();
   return (
     <>
       <div className="container p-2 mx-auto sm:p-4 text-gray-800">
@@ -19,61 +23,31 @@ export function BlogTable() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full text-xs">
-            <thead className="bg-gray-300">
-              <tr className="text-center">
-                <th className="p-3">#</th>
-                <th className="p-3">Blog Title</th>
-                <th className="p-3">Created At</th>
-                <th className="p-3">Updated At</th>
-                <th className="p-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="max-h-full overflow-auto">
-              <tr className="border-b border-opacity-20 border-gray-300 bg-gray-50">
-                <td className="p-3">
-                  <p>97412378923</p>
-                </td>
-                <td className="p-3">
-                  <p>Microsoft Corporation</p>
-                </td>
-                <td className="p-3">
-                  <p>14 Jan 2022</p>
-                  <p className="text-gray-600">Friday</p>
-                </td>
-                <td className="p-3">
-                  <p>01 Feb 2022</p>
-                  <p className="text-gray-600">Tuesday</p>
-                </td>
-                <td className="p-3">
-                  <span className="px-3 py-1 font-semibold rounded-md bg-red-600 text-gray-50">
-                    <span>Pending</span>
-                  </span>
-                </td>
-              </tr>
-              <tr className="border-b border-opacity-20 border-gray-300 bg-gray-50">
-                <td className="p-3">
-                  <p>97412378923</p>
-                </td>
-                <td className="p-3">
-                  <p>Microsoft Corporation</p>
-                </td>
-                <td className="p-3">
-                  <p>14 Jan 2022</p>
-                  <p className="text-gray-600">Friday</p>
-                </td>
-                <td className="p-3">
-                  <p>01 Feb 2022</p>
-                  <p className="text-gray-600">Tuesday</p>
-                </td>
-                <td className="p-3">
-                  <span className="px-3 py-1 font-semibold rounded-md bg-red-600 text-gray-50">
-                    <span>Pending</span>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          {posts.isLoading && <Loading />}
+          {!posts.isLoading && (
+            <table className="min-w-full text-xs">
+              <thead className="bg-gray-300">
+                <tr className="text-center">
+                  <th className="p-3">Title</th>
+                  <th className="p-3">Description</th>
+                  <th className="p-3">Created At</th>
+                  <th className="p-3">Updated At</th>
+                  <th className="p-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="max-h-full overflow-auto">
+                {posts.data?.length == 0 ? (
+                  <tr className="border-b text-center border-opacity-20 border-gray-300 bg-gray-50">
+                    <td colSpan={5}>No posts found</td>
+                  </tr>
+                ) : (
+                  posts.data?.map((post) => (
+                    <BlogRow key={post.id} post={post} />
+                  ))
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </>

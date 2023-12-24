@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { loginUser } from "../../_providers/api/apiUtils";
+import { loginUser } from "../../_providers/api/authUtil";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { UserState, login } from "../../_providers/slices/userSlice";

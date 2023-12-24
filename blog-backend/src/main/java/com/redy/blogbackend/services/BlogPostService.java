@@ -3,6 +3,7 @@ package com.redy.blogbackend.services;
 import com.redy.blogbackend.controllers.dto.BlogPostDTO;
 import com.redy.blogbackend.entities.BlogPost;
 import com.redy.blogbackend.entities.User;
+import com.redy.blogbackend.entities.projections.BlogPostsUser;
 import com.redy.blogbackend.repositories.BlogPostRepository;
 import com.redy.blogbackend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,12 @@ public class BlogPostService {
     }
 
     public BlogPost getPost(int postId) throws Exception{
-        return blogPostRepository.findById(postId).orElseThrow(() -> new Exception("Post Not Found"));
+         return blogPostRepository.findById(postId).orElseThrow(() -> new Exception("Post Not Found"));
+    }
+
+    public List<BlogPostsUser> getUserPosts() throws Exception {
+        User user = getUserFromContext();
+        return blogPostRepository.findAllUserPosts();
     }
 
     public void createPost(BlogPostDTO blogPostDTO) throws Exception {

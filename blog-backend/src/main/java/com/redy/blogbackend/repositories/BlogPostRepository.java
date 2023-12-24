@@ -1,7 +1,13 @@
 package com.redy.blogbackend.repositories;
 
 import com.redy.blogbackend.entities.BlogPost;
+import com.redy.blogbackend.entities.projections.BlogPostsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface BlogPostRepository extends JpaRepository<BlogPost, Integer> {
+    @Query("SELECT b FROM BlogPost b ORDER BY b.createdAt DESC")
+    List<BlogPostsUser> findAllUserPosts();
 }

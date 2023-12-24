@@ -2,6 +2,7 @@ package com.redy.blogbackend.controllers;
 
 import com.redy.blogbackend.controllers.dto.BlogPostDTO;
 import com.redy.blogbackend.entities.BlogPost;
+import com.redy.blogbackend.entities.projections.BlogPostsUser;
 import com.redy.blogbackend.services.BlogPostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogPostService blogPostService;
@@ -22,8 +24,15 @@ public class BlogController {
         return blogPostService.getPosts(page, size);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(path="/user")
+    public List<BlogPostsUser> getUserPosts() throws Exception{
+        return blogPostService.getUserPosts();
+    }
+
     @GetMapping("/{id}")
     public BlogPost getPost(@PathVariable("id") int postId) throws Exception {
+        System.out.println(postId);
         return blogPostService.getPost(postId);
     }
 

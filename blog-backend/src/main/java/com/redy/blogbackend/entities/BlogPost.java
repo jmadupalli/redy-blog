@@ -30,12 +30,13 @@ public class BlogPost {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="user_id")
     private User user;
 
     @CreatedDate
+    @Column(updatable = false)
     private long createdAt;
 
     @LastModifiedDate

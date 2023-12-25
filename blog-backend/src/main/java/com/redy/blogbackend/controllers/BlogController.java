@@ -32,7 +32,6 @@ public class BlogController {
 
     @GetMapping("/{id}")
     public BlogPost getPost(@PathVariable("id") int postId) throws Exception {
-        System.out.println(postId);
         return blogPostService.getPost(postId);
     }
 

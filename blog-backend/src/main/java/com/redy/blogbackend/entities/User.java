@@ -1,6 +1,7 @@
 package com.redy.blogbackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.redy.blogbackend.config.auth.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="blog_users")
+@JsonIgnoreProperties({"email", "password", "authorities", "accountNonExpired", "accountNonLocked", "enabled", "credentialsNonExpired", "role", "username"})
 public class User implements UserDetails {
 
     @Id
@@ -27,14 +29,9 @@ public class User implements UserDetails {
     private Integer id;
     private String firstName;
     private String lastName;
-
-    @JsonIgnore
     private String email;
-
-    @JsonIgnore
     private String password;
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 

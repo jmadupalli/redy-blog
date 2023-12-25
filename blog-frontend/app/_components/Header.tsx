@@ -23,7 +23,7 @@ export default function Header() {
   };
   return (
     <header className="p-4 bg-gray-100 text-gray-800">
-      <div className="container flex justify-between h-16 mx-auto">
+      <div className="container flex items-center justify-between h-16 mx-auto">
         <Link href="/">
           <span className="w-8 h-8 text-red-600 text-3xl font-serif">
             redy blog
@@ -31,7 +31,7 @@ export default function Header() {
         </Link>
 
         <ul className="items-stretch hidden space-x-3 md:flex"></ul>
-        <div className="items-center flex-shrink-0 hidden lg:flex">
+        <div className="items-center flex-shrink-0  flex">
           {!userState.firstName && (
             <Link href="/user/login">
               <button className="px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50">
@@ -49,7 +49,7 @@ export default function Header() {
 
               <button
                 onClick={handleLogout}
-                className="ml-2 px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50"
+                className="hidden md:block ml-2 px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50"
               >
                 Log out
               </button>

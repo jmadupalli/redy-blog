@@ -31,14 +31,15 @@ export const blogApi = createApi({
     credentials: "include",
     mode: "cors",
   }),
-  tagTypes: ["posts", "post"],
+  tagTypes: ["d_posts", "post"],
   endpoints: (builder) => ({
     getUserPostsQuery: builder.query<BlogPost[], void>({
       query: () => "/posts/user",
-      providesTags: ["posts"],
+      providesTags: ["d_posts"],
     }),
     getPost: builder.query<BlogPost, number>({
       query: (id) => `/posts/${id}`,
+      providesTags: (res, err, id) => [{ type: "post", id }],
     }),
     createOrUpdatePost: builder.mutation<
       void,
@@ -49,14 +50,17 @@ export const blogApi = createApi({
         method: id ? "PUT" : "POST",
         body: post,
       }),
-      invalidatesTags: ["posts"],
+      invalidatesTags: (res, err, arg) => [
+        { type: "post", id: arg.id },
+        "d_posts",
+      ],
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
         url: `/posts/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["posts"],
+      invalidatesTags: ["d_posts"],
     }),
   }),
 });

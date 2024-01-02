@@ -5,6 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../_providers/store";
 import { UserState, login, logout } from "../_providers/slices/userSlice";
 import { useEffect } from "react";
+import {
+  DropdownMenuContent,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
 
 export default function Header() {
   const userState = useSelector((state: RootState) => state.user);
@@ -41,18 +49,35 @@ export default function Header() {
           )}
           {userState.firstName && (
             <>
-              <Link href="/user/dash">
-                <button className="px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50">
-                  Dashboard
-                </button>
-              </Link>
-
-              <button
-                onClick={handleLogout}
-                className="hidden md:block ml-2 px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50"
-              >
-                Log out
-              </button>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50">
+                  Menu &#8964;
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white">
+                  <DropdownMenuLabel className="text-xs">
+                    Signed in as:
+                    <br />
+                    {userState.firstName} {userState.lastName}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/user/dash">
+                    <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                      Dashboard
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href="/user/settings">
+                    <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                      Settings
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer hover:bg-gray-100"
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           )}
         </div>

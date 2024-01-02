@@ -25,10 +25,10 @@ export default function BlogRow({ post }: { post: BlogPost }) {
 
   return (
     <tr className="border-b border-opacity-20 border-gray-300 bg-gray-50">
-      <td className="p-3">
+      <td className="p-3 max-w-xs">
         <p>{post.title}</p>
       </td>
-      <td className="p-3">
+      <td className="p-3 max-w-xs">
         <p>{post.description}</p>
       </td>
       <td className="p-3">

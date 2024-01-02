@@ -42,6 +42,11 @@ export default function PostForm({ post }: { post: BlogPost | undefined }) {
       toast.error("Content cannot be empty.");
       return;
     }
+    const nKeywords = formData.keywords.split(",").length;
+    if (nKeywords > 3) {
+      toast.error("Post cannot have more than 3 keywords");
+      return;
+    }
     createOrUpdatePost({
       id: post ? post.id : undefined,
       post: { content, ...formData },
@@ -103,7 +108,7 @@ export default function PostForm({ post }: { post: BlogPost | undefined }) {
               </div>
               <div className="col-span-full">
                 <label htmlFor="website" className="text-sm">
-                  Post Keywords (comma-separated)
+                  Post Keywords (comma-separated, max 3)
                 </label>
                 <input
                   id="keywords"

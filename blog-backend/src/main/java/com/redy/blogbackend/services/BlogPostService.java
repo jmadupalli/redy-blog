@@ -1,5 +1,6 @@
 package com.redy.blogbackend.services;
 
+import com.redy.blogbackend.config.auth.Role;
 import com.redy.blogbackend.controllers.dto.BlogPostDTO;
 import com.redy.blogbackend.entities.BlogPost;
 import com.redy.blogbackend.entities.User;
@@ -33,7 +34,9 @@ public class BlogPostService {
 
     public List<BlogPostsUser> getUserPosts() throws Exception {
         User user = getUserFromContext();
-        return blogPostRepository.findAllUserPosts();
+        if(user.getRole().equals(Role.ROLE_ADMIN.name()))
+            return blogPostRepository.findAllUserPosts();
+        return blogPostRepository.findAllUserPosts(user.getId());
     }
 
     public void createPost(BlogPostDTO blogPostDTO) throws Exception {

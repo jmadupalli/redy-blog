@@ -2,6 +2,7 @@ package com.redy.blogbackend.controllers;
 
 import com.redy.blogbackend.controllers.dto.RegisterDTO;
 import com.redy.blogbackend.controllers.dto.UpdateUserDTO;
+import com.redy.blogbackend.controllers.dto.UserInfoResponse;
 import com.redy.blogbackend.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+
 public class UserController {
 
     private final UserService userService;
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/")
+    public UserInfoResponse getUser() throws Exception{
+        return userService.getSelfInfo();
+    }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)

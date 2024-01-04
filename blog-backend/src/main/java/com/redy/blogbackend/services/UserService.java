@@ -3,6 +3,7 @@ package com.redy.blogbackend.services;
 import com.redy.blogbackend.config.auth.Role;
 import com.redy.blogbackend.controllers.dto.RegisterDTO;
 import com.redy.blogbackend.controllers.dto.UpdateUserDTO;
+import com.redy.blogbackend.controllers.dto.UserInfoResponse;
 import com.redy.blogbackend.entities.User;
 import com.redy.blogbackend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserInfoResponse getSelfInfo() throws Exception {
+        User user = getUserFromContext();
+        return new UserInfoResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+    }
 
     public void registerUser(RegisterDTO registerDTO) throws Exception{
         Optional<User> userExists = userRepository.findByEmail(registerDTO.getEmail());
@@ -63,10 +69,10 @@ public class UserService {
             user.setLastName(userDTO.getLastName());
 
         if(userDTO.getPassword() != null && userDTO.getNewPassword() != null){
-            if(!passwordEncoder.encode(userDTO.getPassword()).equals(user.getPassword()))
+            if(!passwordEncoder.matches(userDTO.getPassword(), user.getPassword()))
                 throw new Exception("Value submitted for current password is incorrect");
 
-            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            user.setPassword(passwordEncoder.encode(userDTO.getNewPassword()));
         }
         userRepository.save(user);
 

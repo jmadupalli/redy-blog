@@ -28,25 +28,6 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public void registerUser(RegisterDTO registerDTO) throws Exception{
-        Optional<User> userExists = userRepository.findByEmail(registerDTO.getEmail());
-        if(userExists.isPresent()){
-            throw new Exception("Provided email already exists");
-        }
-
-        User user = User
-                .builder()
-                .firstName(registerDTO.getFirstName())
-                .lastName(registerDTO.getLastName())
-                .email(registerDTO.getEmail())
-                .role(Role.ROLE_USER)
-                .password(passwordEncoder.encode(registerDTO.getPassword()))
-                .build();
-
-        userRepository.save(user);
-
-    }
-
     public AuthResponse loginUser(LoginDTO loginDTO, HttpServletResponse response) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
         User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(
@@ -67,6 +48,7 @@ public class AuthService {
                 .builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .role(user.getRole())
                 .expriesAt(expiresAt)
                 .build();
     }

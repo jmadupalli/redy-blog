@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface BlogPostRepository extends JpaRepository<BlogPost, Integer> {
     @Query("SELECT b FROM BlogPost b ORDER BY b.createdAt DESC")
     List<BlogPostsUser> findAllUserPosts();
+
+    @Query("SELECT b FROM BlogPost b WHERE b.user.id = :userId ORDER BY b.createdAt DESC")
+    List<BlogPostsUser> findAllUserPosts(Integer userId);
 }

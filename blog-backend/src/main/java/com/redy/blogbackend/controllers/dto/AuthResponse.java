@@ -12,5 +12,6 @@ import java.util.Date;
 public class AuthResponse {
     private String firstName;
     private String lastName;
+    private String role;
     private Date expriesAt;
 }

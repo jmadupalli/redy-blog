@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@Valid @RequestBody RegisterDTO registerDTO) throws Exception {
-        authService.registerUser(registerDTO);
-    }
-
     @PostMapping("/login")
     public AuthResponse loginUser(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) throws Exception {
         return authService.loginUser(loginDTO, response);

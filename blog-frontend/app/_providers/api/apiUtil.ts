@@ -1,5 +1,10 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export type ApiError = {
+  message: string;
+  status: number;
+};
+
 export const loginUser = async (loginDTO: {
   email: string;
   password: string;

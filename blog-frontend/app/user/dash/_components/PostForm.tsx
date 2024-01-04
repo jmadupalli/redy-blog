@@ -65,7 +65,7 @@ export default function PostForm({ post }: { post: BlogPost | undefined }) {
       );
       router.push("/user/dash");
     }
-  });
+  }, [result, router, post]);
 
   return (
     <>

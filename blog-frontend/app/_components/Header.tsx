@@ -12,6 +12,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
 } from "./ui/dropdown-menu";
 
 export default function Header() {
@@ -70,6 +74,27 @@ export default function Header() {
                       Settings
                     </DropdownMenuItem>
                   </Link>
+
+                  {userState.role == "ROLE_ADMIN" && (
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger>Admin</DropdownMenuSubTrigger>
+                      <DropdownMenuPortal>
+                        <DropdownMenuSubContent className="bg-white">
+                          <Link href="/user/admin/site">
+                            <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                              Site Settings
+                            </DropdownMenuItem>
+                          </Link>
+                          <Link href="/user/admin/manage">
+                            <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                              Manage Users
+                            </DropdownMenuItem>
+                          </Link>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuPortal>
+                    </DropdownMenuSub>
+                  )}
+
                   <DropdownMenuItem
                     onClick={handleLogout}
                     className="cursor-pointer hover:bg-gray-100"

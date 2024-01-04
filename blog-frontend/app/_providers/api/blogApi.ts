@@ -1,10 +1,6 @@
-import {
-  MutationDefinition,
-  createApi,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL + "/posts";
 
 export type Post = {
   title: string;
@@ -34,11 +30,11 @@ export const blogApi = createApi({
   tagTypes: ["d_posts", "post"],
   endpoints: (builder) => ({
     getUserPostsQuery: builder.query<BlogPost[], void>({
-      query: () => "/posts/user",
+      query: () => "/user",
       providesTags: ["d_posts"],
     }),
     getPost: builder.query<BlogPost, number>({
-      query: (id) => `/posts/${id}`,
+      query: (id) => `/${id}`,
       providesTags: (res, err, id) => [{ type: "post", id }],
     }),
     createOrUpdatePost: builder.mutation<
@@ -46,7 +42,7 @@ export const blogApi = createApi({
       { id: number | undefined; post: Post }
     >({
       query: ({ id, post }) => ({
-        url: id ? `/posts/${id}` : "/posts/",
+        url: id ? `/${id}` : "/posts/",
         method: id ? "PUT" : "POST",
         body: post,
       }),
@@ -57,7 +53,7 @@ export const blogApi = createApi({
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/posts/${id}`,
+        url: `/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["d_posts"],

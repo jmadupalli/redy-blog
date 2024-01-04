@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { loginUser } from "../../_providers/api/apiUtil";
+import { ApiError, loginUser } from "../../_providers/api/apiUtil";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { UserState, login } from "../../_providers/slices/userSlice";
@@ -28,10 +28,7 @@ export default function LoginPage() {
       dispatch(login(userResponse as UserState));
       router.push("/user/dash");
     } else {
-      const error = (await response.json()) as {
-        message: string;
-        status: number;
-      };
+      const error: ApiError = await response.json();
       toast.error(error.message);
     }
   };

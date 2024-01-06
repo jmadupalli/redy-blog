@@ -35,14 +35,14 @@ public class AuthService {
         );
         ResponseCookie cookie = jwtService.generateTokenCookie(user.getUsername());
         Date expiresAt = new Date(System.currentTimeMillis() + cookie.getMaxAge().toMillis());
-        ResponseCookie expiresAtCookie = ResponseCookie
-                .from("accessTokenExpiresAt", String.valueOf(expiresAt.getTime()))
+        ResponseCookie userRoleCookie = ResponseCookie
+                .from("userRole", user.getRole())
                 .path("/")
                 .httpOnly(true)
                 .secure(false)
                 .maxAge(cookie.getMaxAge())
                 .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, expiresAtCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, userRoleCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return AuthResponse
                 .builder()

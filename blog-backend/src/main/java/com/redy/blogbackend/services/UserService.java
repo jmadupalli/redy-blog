@@ -5,6 +5,7 @@ import com.redy.blogbackend.controllers.dto.RegisterDTO;
 import com.redy.blogbackend.controllers.dto.UpdateUserDTO;
 import com.redy.blogbackend.controllers.dto.UserInfoResponse;
 import com.redy.blogbackend.entities.User;
+import com.redy.blogbackend.entities.projections.ListUser;
 import com.redy.blogbackend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +25,10 @@ public class UserService {
     public UserInfoResponse getSelfInfo() throws Exception {
         User user = getUserFromContext();
         return new UserInfoResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+    }
+
+    public List<ListUser> listUsers() {
+        return userRepository.listUsers();
     }
 
     public void registerUser(RegisterDTO registerDTO) throws Exception{

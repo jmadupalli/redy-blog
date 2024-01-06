@@ -3,12 +3,16 @@ package com.redy.blogbackend.controllers;
 import com.redy.blogbackend.controllers.dto.RegisterDTO;
 import com.redy.blogbackend.controllers.dto.UpdateUserDTO;
 import com.redy.blogbackend.controllers.dto.UserInfoResponse;
+import com.redy.blogbackend.entities.User;
+import com.redy.blogbackend.entities.projections.ListUser;
 import com.redy.blogbackend.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +33,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody RegisterDTO registerDTO) throws Exception {
         userService.registerUser(registerDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/list")
+    public List<ListUser> listUsers() {
+       return userService.listUsers();
     }
 
     @PatchMapping("/{id}")

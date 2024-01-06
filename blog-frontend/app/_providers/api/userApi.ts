@@ -7,6 +7,7 @@ export type UserInfo = {
   firstName: string;
   lastName: string;
   email: string;
+  role: string;
 };
 
 export type InitialUserInfo = {
@@ -30,15 +31,47 @@ export const usersApi = createApi({
       query: () => "/",
       providesTags: ["user"],
     }),
+    listUsers: builder.query<UserInfo[], void>({
+      query: () => "/list",
+      providesTags: ["users"],
+    }),
     updateUser: builder.mutation<void, { id: number; patch: InitialUserInfo }>({
       query: ({ id, patch }) => ({
         url: `/${id}`,
         method: "PATCH",
         body: patch,
       }),
-      invalidatesTags: ["user"],
+      invalidatesTags: ["user", "users"],
+    }),
+    deleteUser: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["users"],
+    }),
+    makeAdmin: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/makeAdmin/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["users"],
+    }),
+    removeAdmin: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/removeAdmin/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["users"],
     }),
   }),
 });
 
-export const { useGetUserQuery, useUpdateUserMutation } = usersApi;
+export const {
+  useGetUserQuery,
+  useListUsersQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useMakeAdminMutation,
+  useRemoveAdminMutation,
+} = usersApi;

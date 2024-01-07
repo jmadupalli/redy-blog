@@ -2,8 +2,8 @@
 
 import { useListUsersQuery } from "@/app/_providers/api/userApi";
 import Loading from "@/app/user/dash/_components/Loading";
-import Link from "next/link";
 import UserRow from "./UserRow";
+import CreateUserDialog from "./CreateUser";
 
 export function UserTable() {
   const users = useListUsersQuery();
@@ -15,11 +15,7 @@ export function UserTable() {
             All Users
           </h2>
           <div className="text-right">
-            <Link href="dash/create">
-              <button className="inline px-3 py-1 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50">
-                Create User
-              </button>
-            </Link>
+            <CreateUserDialog />
           </div>
         </div>
         <div className="overflow-x-auto">

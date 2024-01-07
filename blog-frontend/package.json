@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdxeditor/editor": "^1.14.3",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@reduxjs/toolkit": "^2.0.1",
     "class-variance-authority": "^0.7.0",

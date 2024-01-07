@@ -31,9 +31,21 @@ export const usersApi = createApi({
       query: () => "/",
       providesTags: ["user"],
     }),
+    getUserById: builder.query<UserInfo, number>({
+      query: (id) => `/${id}`,
+      providesTags: (res, err, id) => [{ type: "user", id }],
+    }),
     listUsers: builder.query<UserInfo[], void>({
       query: () => "/list",
       providesTags: ["users"],
+    }),
+    createUser: builder.mutation<void, InitialUserInfo>({
+      query: (userInfo) => ({
+        url: "/create",
+        method: "POST",
+        body: userInfo,
+      }),
+      invalidatesTags: ["users"],
     }),
     updateUser: builder.mutation<void, { id: number; patch: InitialUserInfo }>({
       query: ({ id, patch }) => ({
@@ -41,7 +53,11 @@ export const usersApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      invalidatesTags: ["user", "users"],
+
+      invalidatesTags: (res, err, arg) => [
+        { type: "user", id: arg.id },
+        "users",
+      ],
     }),
     deleteUser: builder.mutation<void, number>({
       query: (id) => ({
@@ -69,7 +85,9 @@ export const usersApi = createApi({
 
 export const {
   useGetUserQuery,
+  useGetUserByIdQuery,
   useListUsersQuery,
+  useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
   useMakeAdminMutation,

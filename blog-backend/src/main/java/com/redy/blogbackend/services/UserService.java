@@ -27,6 +27,11 @@ public class UserService {
         return new UserInfoResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
+    public UserInfoResponse getUserById(int userId) throws Exception {
+        User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
+        return new UserInfoResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+    }
+
     public List<ListUser> listUsers() {
         return userRepository.listUsers();
     }
@@ -51,7 +56,8 @@ public class UserService {
     }
 
     public void updateUser(UpdateUserDTO userDTO, int userId) throws Exception {
-        User user = getUserFromContext();
+        User InvokingUser = getUserFromContext();
+        User user = InvokingUser;
         if(user.getId() != userId && ! user.getRole().equals(Role.ROLE_ADMIN.name()))
             throw new AccessDeniedException("Invalid Operation");
 
@@ -80,6 +86,11 @@ public class UserService {
 
             user.setPassword(passwordEncoder.encode(userDTO.getNewPassword()));
         }
+
+        if(userDTO.getNewPassword() != null && InvokingUser.getRole().equals(Role.ROLE_ADMIN.name())){
+            user.setPassword(passwordEncoder.encode(userDTO.getNewPassword()));
+        }
+
         userRepository.save(user);
 
     }

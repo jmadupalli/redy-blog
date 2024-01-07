@@ -29,6 +29,13 @@ public class UserController {
         return userService.getSelfInfo();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{id}")
+    public UserInfoResponse getUserById(@PathVariable("id") int userId) throws Exception{
+        return userService.getUserById(userId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody RegisterDTO registerDTO) throws Exception {

@@ -42,7 +42,7 @@ export const blogApi = createApi({
       { id: number | undefined; post: Post }
     >({
       query: ({ id, post }) => ({
-        url: id ? `/${id}` : "/posts/",
+        url: id ? `/${id}` : "/",
         method: id ? "PUT" : "POST",
         body: post,
       }),

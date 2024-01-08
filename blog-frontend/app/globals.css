@@ -5,3 +5,7 @@
 .post-md-content * {
   all: revert;
 }
+
+:root {
+  --background: 0 0% 100%;
+}

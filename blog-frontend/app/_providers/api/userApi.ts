@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { url } from "inspector";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL + "/users";
 
@@ -18,6 +19,18 @@ export type InitialUserInfo = {
   newPassword?: string;
 };
 
+export type SiteSettings = {
+  siteName: string;
+  siteCaption: string;
+  pageSize: number;
+  showLogin: boolean;
+};
+
+export type ToOnboard = {
+  settings: SiteSettings;
+  toOnBoard: boolean;
+};
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
@@ -25,7 +38,7 @@ export const usersApi = createApi({
     credentials: "include",
     mode: "cors",
   }),
-  tagTypes: ["user", "users"],
+  tagTypes: ["user", "users", "settings"],
   endpoints: (builder) => ({
     getUser: builder.query<UserInfo, void>({
       query: () => "/",
@@ -38,6 +51,17 @@ export const usersApi = createApi({
     listUsers: builder.query<UserInfo[], void>({
       query: () => "/list",
       providesTags: ["users"],
+    }),
+    getSettings: builder.query<ToOnboard, void>({
+      query: () => "/siteSettings",
+      providesTags: ["settings"],
+    }),
+    updateSettings: builder.mutation<void, SiteSettings>({
+      query: (settings) => ({
+        url: "/siteSettings",
+        method: "PUT",
+        body: settings,
+      }),
     }),
     createUser: builder.mutation<void, InitialUserInfo>({
       query: (userInfo) => ({
@@ -87,9 +111,11 @@ export const {
   useGetUserQuery,
   useGetUserByIdQuery,
   useListUsersQuery,
+  useGetSettingsQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
   useMakeAdminMutation,
+  useUpdateSettingsMutation,
   useRemoveAdminMutation,
 } = usersApi;

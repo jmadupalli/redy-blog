@@ -1,15 +1,16 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { BlogPost } from "../_providers/api/blogApi";
+import PostStats from "./PostStats";
 
 export default async function Post({ post }: { post: BlogPost }) {
   const createdDate = new Date(post.createdAt);
   return (
     <>
-      <article className="max-w-4xl mb-3 px-12 py-12 mx-auto space-y-12 bg-gray-50 rounded-2xl text-gray-900">
+      <article className="max-w-4xl mb-16 px-12 py-12 mx-auto space-y-12 bg-gray-50 rounded-2xl text-gray-900">
         <div className="w-full mx-auto space-y-4 text-center">
           <p className="text-xs font-semibold tracki uppercase">
-            {post.keywords.split(",").map((keyword) => (
-              <>#{keyword.trim()} </>
+            {post.keywords.split(",").map((keyword, i) => (
+              <span key={i}>#{keyword.trim()} </span>
             ))}
           </p>
           <h1 className="text-4xl font-bold leadi md:text-5xl">{post.title}</h1>
@@ -26,6 +27,9 @@ export default async function Post({ post }: { post: BlogPost }) {
         </div>
         <div className="text-gray-800 post-md-content">
           <MDXRemote source={post.content} />
+        </div>
+        <div className="pt-12 border-t border-gray-300">
+          <PostStats id={post.id} likeCount={post.likeCount} />
         </div>
       </article>
     </>

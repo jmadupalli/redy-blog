@@ -39,7 +39,7 @@ export function UserTable() {
                 ) : (
                   users.data?.map((user) => (
                     <>
-                      <UserRow user={user} />
+                      <UserRow key={user.id} user={user} />
                     </>
                   ))
                 )}

@@ -15,14 +15,10 @@ export default async function PostsList({
 }: {
   params?: { page: string };
 }) {
-  const SIZE = 4;
   const PAGE = params?.page ? parseInt(params.page) : 1;
-  const response = await fetch(
-    API_URL + `/posts/?page=${PAGE - 1}&size=${SIZE}`,
-    {
-      next: { revalidate: 60 },
-    }
-  );
+  const response = await fetch(API_URL + `/posts/?page=${PAGE - 1}`, {
+    next: { revalidate: 60 },
+  });
   const posts: PageablePosts = await response.json();
   if (response.status != 200 || posts.content.length == 0) return notFound();
   return (

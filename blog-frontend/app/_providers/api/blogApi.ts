@@ -16,6 +16,7 @@ export type BlogPost = {
     firstName: string;
     lastName: string;
   };
+  likeCount: number;
   createdAt: string;
   updatedAt: string;
 } & Post;
@@ -36,6 +37,12 @@ export const blogApi = createApi({
     getPost: builder.query<BlogPost, number>({
       query: (id) => `/${id}`,
       providesTags: (res, err, id) => [{ type: "post", id }],
+    }),
+    likePost: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/like/${id}`,
+        method: "POST",
+      }),
     }),
     createOrUpdatePost: builder.mutation<
       void,
@@ -64,6 +71,7 @@ export const blogApi = createApi({
 export const {
   useGetUserPostsQueryQuery,
   useGetPostQuery,
+  useLikePostMutation,
   useCreateOrUpdatePostMutation,
   useDeletePostMutation,
 } = blogApi;

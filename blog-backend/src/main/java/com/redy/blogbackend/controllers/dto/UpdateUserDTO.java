@@ -14,9 +14,7 @@ public class UpdateUserDTO {
     private String lastName;
     @Email(message = "Email must be valid")
     private String email;
-
     private String password;
-
     @Size(min=8, message = "Password should have min 8 chars")
     private String newPassword;
 }

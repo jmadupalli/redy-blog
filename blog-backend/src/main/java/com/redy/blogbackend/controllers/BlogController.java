@@ -19,20 +19,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogPostService blogPostService;
-    @GetMapping(path = "/", params = {"page", "size"})
-    public Page<BlogPost> getPosts(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return blogPostService.getPosts(page, size);
+
+    @GetMapping(path = "/", params = {"page"})
+    public Page<BlogPost> getPosts(@RequestParam("page") int page) {
+        return blogPostService.getPosts(page);
+    }
+
+    @GetMapping("/{id}")
+    public BlogPost getPost(@PathVariable("id") int postId) throws Exception {
+        return blogPostService.getPost(postId);
+    }
+
+    @PostMapping("/like/{id}")
+    public void likePost(@PathVariable("id") int postId) {
+        blogPostService.likePost(postId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(path="/user")
     public List<BlogPostsUser> getUserPosts() throws Exception{
         return blogPostService.getUserPosts();
-    }
-
-    @GetMapping("/{id}")
-    public BlogPost getPost(@PathVariable("id") int postId) throws Exception {
-        return blogPostService.getPost(postId);
     }
 
     @PostMapping("/")

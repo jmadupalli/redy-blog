@@ -1,9 +1,6 @@
 package com.redy.blogbackend.controllers;
 
-import com.redy.blogbackend.controllers.dto.RegisterDTO;
-import com.redy.blogbackend.controllers.dto.UpdateUserDTO;
-import com.redy.blogbackend.controllers.dto.UserInfoResponse;
-import com.redy.blogbackend.entities.User;
+import com.redy.blogbackend.controllers.dto.*;
 import com.redy.blogbackend.entities.projections.ListUser;
 import com.redy.blogbackend.services.UserService;
 import jakarta.validation.Valid;
@@ -39,7 +36,7 @@ public class UserController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody RegisterDTO registerDTO) throws Exception {
-        userService.registerUser(registerDTO);
+        userService.registerUser(registerDTO, false);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -69,6 +66,18 @@ public class UserController {
     @PostMapping("/removeAdmin/{id}")
     public void removeAdmin(@PathVariable("id") int userId) throws Exception{
         userService.removeAdmin(userId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/siteSettings")
+    public void updateSettings(@Valid @RequestBody SettingsDTO settingsDTO) throws Exception {
+        userService.updateSiteSettings(settingsDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/siteSettings")
+    public SiteSettingsResp getSettings() {
+        return userService.getSettings();
     }
 
 }

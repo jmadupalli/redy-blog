@@ -27,6 +27,9 @@ public class BlogPost {
 
     private String keywords;
 
+    @Column(columnDefinition = "integer default 0")
+    private Integer likeCount;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 

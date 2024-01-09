@@ -47,7 +47,10 @@ public class BlogPostService {
 
         if(post.isPresent()){
             BlogPost retrievedPost = post.get();
-            retrievedPost.setLikeCount(retrievedPost.getLikeCount() + 1);
+            if(retrievedPost.getLikeCount() == null)
+                retrievedPost.setLikeCount(1);
+            else
+                retrievedPost.setLikeCount(retrievedPost.getLikeCount() + 1);
             blogPostRepository.save(retrievedPost);
         }
     }

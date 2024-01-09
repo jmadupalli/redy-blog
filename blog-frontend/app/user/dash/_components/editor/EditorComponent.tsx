@@ -68,10 +68,12 @@ const allPlugins = (diffMarkdown: string) => [
   sandpackPlugin({ sandpackConfig: reactSandpackConfig }),
   codeMirrorPlugin({
     codeBlockLanguages: {
-      js: "JavaScript",
-      css: "CSS",
       txt: "text",
+      js: "JavaScript",
       tsx: "TypeScript",
+      css: "CSS",
+      py: "Python",
+      java: "Java",
     },
   }),
   directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),

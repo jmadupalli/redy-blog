@@ -1,17 +1,19 @@
 "use client";
+import { ApiError } from "@/app/_providers/api/apiUtil";
+import {
+  SiteSettings,
+  useUpdateSettingsMutation,
+} from "@/app/_providers/api/userApi";
+import Loading from "@/app/user/dash/_components/Loading";
 import * as Switch from "@radix-ui/react-switch";
-import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const intialSiteInfo = {
-  siteName: "",
-  siteCaption: "",
-  pageSize: 5,
-  showLogin: true,
-};
-
-export default function SettingsForm() {
-  const [formData, setFormData] = useState(intialSiteInfo);
+export default function SettingsForm({ settings }: { settings: SiteSettings }) {
+  const [formData, setFormData] = useState(settings);
+  const [updateSettings, result] = useUpdateSettingsMutation();
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,9 +26,21 @@ export default function SettingsForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.error("Something went wrong");
-    return;
+    updateSettings(formData);
   };
+
+  useEffect(() => {
+    if (result.isError) {
+      const error: { data: ApiError } = result.error as { data: ApiError };
+      toast.error(error.data.message);
+      return;
+    }
+
+    if (result.isSuccess) {
+      toast.success("Settings updated successfully");
+      router.push("/user/dash");
+    }
+  }, [result, router]);
 
   return (
     <>
@@ -100,12 +114,16 @@ export default function SettingsForm() {
           </div>
         </fieldset>
         <div className="m-auto">
-          <button
-            type="submit"
-            className=" mt-2 px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50"
-          >
-            Submit
-          </button>
+          {result.isLoading ? (
+            <Loading />
+          ) : (
+            <button
+              type="submit"
+              className=" mt-2 px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </>

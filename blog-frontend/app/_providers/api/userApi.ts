@@ -62,6 +62,7 @@ export const usersApi = createApi({
         method: "PUT",
         body: settings,
       }),
+      invalidatesTags: ["settings"],
     }),
     createUser: builder.mutation<void, InitialUserInfo>({
       query: (userInfo) => ({

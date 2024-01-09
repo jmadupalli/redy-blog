@@ -17,8 +17,13 @@ import {
   DropdownMenuPortal,
   DropdownMenuSubContent,
 } from "./ui/dropdown-menu";
+import { SiteSettings } from "../_providers/api/userApi";
 
-export default function Header() {
+export default function Header({
+  settings,
+}: {
+  settings: SiteSettings | undefined;
+}) {
   const userState = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -38,13 +43,13 @@ export default function Header() {
       <div className="container flex items-center justify-between h-16 mx-auto">
         <Link href="/">
           <span className="w-8 h-8 text-red-600 text-3xl font-serif">
-            redy blog
+            {settings?.siteName ?? "redy blog"}
           </span>
         </Link>
 
         <ul className="items-stretch hidden space-x-3 md:flex"></ul>
         <div className="items-center flex-shrink-0  flex">
-          {!userState.firstName && (
+          {settings && settings.showLogin && !userState.firstName && (
             <Link href="/user/login">
               <button className="px-4 py-2 font-semibold rounded bg-red-600 hover:bg-red-500 text-gray-50">
                 Log in

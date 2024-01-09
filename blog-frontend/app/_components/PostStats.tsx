@@ -29,7 +29,10 @@ export default function PostStats({
   }, [id]);
 
   const handleLike = () => {
-    setLike((prev) => ({ liked: true, count: prev.count + 1 }));
+    setLike((prev) => ({
+      liked: true,
+      count: prev.count == 0 ? 1 : prev.count + 1,
+    }));
     likePost(id);
     const isLiked = JSON.parse(localStorage.getItem("article_likes") ?? "{}");
     isLiked[id] = true;

@@ -4,6 +4,7 @@ import { BlogPost } from "../_providers/api/blogApi";
 import PostItem from "../_components/PostItem";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import SiteSettings from "../user/admin/site/page";
 
 type PageablePosts = {
   content: BlogPost[];

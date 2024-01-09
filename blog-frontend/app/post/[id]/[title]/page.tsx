@@ -29,7 +29,8 @@ export default async function PostPage({
 }: {
   params: { id: string; title: string };
 }) {
-  const response = await fetch(API_URL + `/posts/${params.id}`);
+  const postId = parseInt(params.id);
+  const response = await fetch(API_URL + `/posts/${postId}`);
   const post: BlogPost = await response.json();
   if (response.status != 200) return notFound();
   return (

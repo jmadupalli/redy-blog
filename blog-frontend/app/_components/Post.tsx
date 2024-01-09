@@ -1,9 +1,22 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { BlogPost } from "../_providers/api/blogApi";
 import PostStats from "./PostStats";
+import rehypeHighlight from "rehype-highlight";
+import { compileMDX } from "next-mdx-remote/rsc";
+import "highlight.js/styles/atom-one-dark.css";
 
 export default async function Post({ post }: { post: BlogPost }) {
   const createdDate = new Date(post.createdAt);
+
+  const { content } = await compileMDX({
+    source: post.content,
+    options: {
+      mdxOptions: {
+        /* @ts-ignore: rehypeHighlight */
+        rehypePlugins: [rehypeHighlight],
+        format: "mdx",
+      },
+    },
+  });
   return (
     <>
       <article className="max-w-4xl mb-16 px-12 py-12 mx-auto space-y-12 bg-gray-50 rounded-2xl text-gray-900">
@@ -25,9 +38,7 @@ export default async function Post({ post }: { post: BlogPost }) {
             </time>
           </p>
         </div>
-        <div className="text-gray-800 post-md-content">
-          <MDXRemote source={post.content} />
-        </div>
+        <div className="text-gray-800 post-md-content">{content}</div>
         <div className="pt-12 border-t border-gray-300">
           <PostStats id={post.id} likeCount={post.likeCount} />
         </div>

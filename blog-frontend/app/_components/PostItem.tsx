@@ -30,13 +30,12 @@ export default function PostItem({ post }: { post: BlogPost }) {
           <p className="mt-2">{post.description}</p>
         </div>
         <div className="flex items-center justify-between mt-4">
-          <a
-            rel="noopener noreferrer"
-            href="#"
+          <Link
+            href={`/post/${post.id}/${post.title.replaceAll(" ", "-")}`}
             className="hover:underline text-red-600"
           >
             Read more
-          </a>
+          </Link>
           <div>
             <span className=" flex items-center text-gray-600">
               {`${post.user?.firstName} ${post.user?.lastName}`}

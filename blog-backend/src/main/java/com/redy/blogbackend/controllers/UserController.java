@@ -14,11 +14,15 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 
 public class UserController {
 
     private final UserService userService;
+
+    @PatchMapping("/{id}")
+    public void updateUser(@Valid @RequestBody UpdateUserDTO updateDTO, @PathVariable("id") int userId) throws Exception {
+        userService.updateUser(updateDTO, userId);
+    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/")
@@ -27,55 +31,50 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public UserInfoResponse getUserById(@PathVariable("id") int userId) throws Exception{
         return userService.getUserById(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/create")
+    @PostMapping("/admin/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody RegisterDTO registerDTO) throws Exception {
         userService.registerUser(registerDTO, false);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/list")
-    public List<ListUser> listUsers() {
-       return userService.listUsers();
-    }
-
-    @PatchMapping("/{id}")
-    public void updateUser(@Valid @RequestBody UpdateUserDTO updateDTO, @PathVariable("id") int userId) throws Exception {
-        userService.updateUser(updateDTO, userId);
+    @GetMapping("/admin/list")
+    public List<ListUser> listUsers() throws Exception {
+        return userService.listUsers();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteUser(@PathVariable("id") int userId) throws Exception {
         userService.deleteUser(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/makeAdmin/{id}")
+    @PostMapping("/admin/makeAdmin/{id}")
     public void makeAdmin(@PathVariable("id") int userId) throws Exception{
         userService.makeAdmin(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/removeAdmin/{id}")
+    @PostMapping("/admin/removeAdmin/{id}")
     public void removeAdmin(@PathVariable("id") int userId) throws Exception{
         userService.removeAdmin(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/siteSettings")
+    @PutMapping("/admin/siteSettings")
     public void updateSettings(@Valid @RequestBody SettingsDTO settingsDTO) throws Exception {
         userService.updateSiteSettings(settingsDTO);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/siteSettings")
+    @GetMapping("/admin/siteSettings")
     public SiteSettingsResp getSettings() {
         return userService.getSettings();
     }

@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogPostService blogPostService;
@@ -41,22 +40,22 @@ public class BlogController {
         return blogPostService.getUserPosts();
     }
 
-    @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public void createPost(@Valid @RequestBody BlogPostDTO blogPostDTO) throws Exception {
         blogPostService.createPost(blogPostDTO);
     }
 
-    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void updatePost(@Valid @RequestBody BlogPostDTO blogPostDTO, @PathVariable("id") int postId) throws Exception{
         blogPostService.updatePost(blogPostDTO, postId);
     }
 
-    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deletePost(@PathVariable("id") int postId) throws Exception{
         blogPostService.deletePost(postId);

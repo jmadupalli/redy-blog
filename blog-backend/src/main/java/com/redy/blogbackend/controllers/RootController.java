@@ -12,12 +12,10 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class RootController {
     private final RootService rootService;
 
     @GetMapping(value = "/")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public Map<String, String> sayHello() {
         return Map.of("message", "Hello, I'm built to persist and serve your blogs! :)");
     }

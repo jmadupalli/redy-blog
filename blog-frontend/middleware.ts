@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_URL } from "./app/_providers/api/apiUtil";
-
-const fetchSettings = async () => {
-  const fetchSettings = await fetch(API_URL + "/settings", {
-    next: { tags: ["siteSettings"] },
-  });
-  return await fetchSettings.json();
-};
+import { fetchSettings } from "./app/_providers/api/apiUtil";
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname == "/") {

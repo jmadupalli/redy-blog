@@ -40,7 +40,7 @@ export default function OnBoardForm() {
     const response = await onBoard({ ...formData, userDTO: userData });
     if (response && response.status == 200) {
       toast.success("Onboarding successful");
-      router.push("/");
+      router.refresh();
     } else {
       const error: ApiError = await response.json();
       toast.error(error.message);
@@ -55,10 +55,13 @@ export default function OnBoardForm() {
           className="container flex flex-col mx-auto space-y-12"
           onSubmit={handleSubmit}
         >
+          <div className="w-fit font-semibold text-xl">
+            Create your redy blog!
+          </div>
           <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
             <div className="space-y-2 col-span-full lg:col-span-1">
               <p className="font-medium">Site Settings</p>
-              <p className="text-xs">Update Site Settings here.</p>
+              <p className="text-xs">Setup Site Settings here.</p>
             </div>
             <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
               <div className="col-span-full sm:col-span-3">

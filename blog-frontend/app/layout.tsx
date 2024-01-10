@@ -5,41 +5,27 @@ import { Providers } from "./_providers/providers";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import { Toaster } from "sonner";
-import { API_URL } from "./_providers/api/apiUtil";
+import { fetchSettings } from "./_providers/api/apiUtil";
 import { ToOnboard } from "./_providers/api/userApi";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const fetchSettings = await fetch(API_URL + "/settings", {
-    next: { tags: ["siteSettings"] },
-  });
-  const settings: ToOnboard = await fetchSettings.json();
-
-  return {
-    title:
-      settings.settings?.siteName + " - " + settings.settings?.siteCaption ??
-      "redy-blog",
-    description:
-      settings.settings?.siteCaption ?? "Blog App with NextJS and SpringBoot",
-  };
-}
+export const metadata: Metadata = {
+  title: "redy-blog",
+};
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const fetchSettings = await fetch(API_URL + "/settings", {
-    next: { tags: ["siteSettings"] },
-  });
-  const settings: ToOnboard = await fetchSettings.json();
+  const settings: ToOnboard = await fetchSettings();
   return (
     <html lang="en">
       <body className={inter.className}>
         <Providers>
           <div className="flex h-screen flex-col">
-            {settings.toOnBoard ? (
+            {!settings || settings.toOnBoard ? (
               <Header settings={undefined} />
             ) : (
               <Header settings={settings.settings} />

@@ -1,4 +1,5 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL_SERVER = process.env.NEXT_INTERNAL_API_URL;
 
 export type ApiError = {
   message: string;
@@ -16,6 +17,17 @@ export type OnBoardDTO = {
     email: string;
     password: string;
   };
+};
+
+export const fetchSettings = async () => {
+  try {
+    const fetchSettings = await fetch(API_URL_SERVER + "/settings", {
+      cache: "no-store",
+    });
+    if (fetchSettings) return await fetchSettings.json();
+  } catch (err) {
+    return null;
+  }
 };
 
 export const loginUser = async (loginDTO: {

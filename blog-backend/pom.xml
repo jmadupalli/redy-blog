@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.redy</groupId>
-	<artifactId>blog-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>redy-blog-api</artifactId>
+	<version>0.1</version>
 	<name>blog-backend</name>
 	<description>blog-backend</description>
 	<properties>

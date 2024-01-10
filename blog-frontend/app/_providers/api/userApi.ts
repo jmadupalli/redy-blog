@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { url } from "inspector";
+import { API_URL } from "./apiUtil";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL + "/users";
+const BASE_URL = API_URL + "/users";
 
 export type UserInfo = {
   id: number;
@@ -34,7 +34,7 @@ export type ToOnboard = {
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: BASE_URL,
     credentials: "include",
     mode: "cors",
   }),
@@ -45,20 +45,20 @@ export const usersApi = createApi({
       providesTags: ["user"],
     }),
     getUserById: builder.query<UserInfo, number>({
-      query: (id) => `/${id}`,
+      query: (id) => `/admin/${id}`,
       providesTags: (res, err, id) => [{ type: "user", id }],
     }),
     listUsers: builder.query<UserInfo[], void>({
-      query: () => "/list",
+      query: () => "/admin/list",
       providesTags: ["users"],
     }),
     getSettings: builder.query<ToOnboard, void>({
-      query: () => "/siteSettings",
+      query: () => "/admin/siteSettings",
       providesTags: ["settings"],
     }),
     updateSettings: builder.mutation<void, SiteSettings>({
       query: (settings) => ({
-        url: "/siteSettings",
+        url: "/admin/siteSettings",
         method: "PUT",
         body: settings,
       }),
@@ -66,7 +66,7 @@ export const usersApi = createApi({
     }),
     createUser: builder.mutation<void, InitialUserInfo>({
       query: (userInfo) => ({
-        url: "/create",
+        url: "/admin/create",
         method: "POST",
         body: userInfo,
       }),
@@ -86,21 +86,21 @@ export const usersApi = createApi({
     }),
     deleteUser: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/${id}`,
+        url: `/admin/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["users"],
     }),
     makeAdmin: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/makeAdmin/${id}`,
+        url: `/admin/makeAdmin/${id}`,
         method: "POST",
       }),
       invalidatesTags: ["users"],
     }),
     removeAdmin: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/removeAdmin/${id}`,
+        url: `/admin/removeAdmin/${id}`,
         method: "POST",
       }),
       invalidatesTags: ["users"],

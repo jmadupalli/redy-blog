@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { API_URL } from "./apiUtil";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL + "/posts";
+const BASE_URL = API_URL + "/posts";
 
 export type Post = {
   title: string;
@@ -24,7 +25,7 @@ export type BlogPost = {
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: BASE_URL,
     credentials: "include",
     mode: "cors",
   }),
@@ -49,7 +50,7 @@ export const blogApi = createApi({
       { id: number | undefined; post: Post }
     >({
       query: ({ id, post }) => ({
-        url: id ? `/${id}` : "/",
+        url: id ? `/user/${id}` : "/user",
         method: id ? "PUT" : "POST",
         body: post,
       }),
@@ -60,7 +61,7 @@ export const blogApi = createApi({
     }),
     deletePost: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/${id}`,
+        url: `/user/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["d_posts"],

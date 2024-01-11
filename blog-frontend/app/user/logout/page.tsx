@@ -1,12 +1,15 @@
 "use client";
+import { logoutUser } from "@/app/_providers/api/apiUtil";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LogoutPage() {
   const router = useRouter();
   useEffect(() => {
-    localStorage.clear();
-    router.push("/user/login");
+    logoutUser().then(() => {
+      localStorage.clear();
+      router.push("/user/login");
+    });
   }, [router]);
   return (
     <>

@@ -30,6 +30,14 @@ export const fetchSettings = async () => {
   }
 };
 
+export const logoutUser = async () => {
+  return await fetch(API_URL + "/logout", {
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
+  });
+};
+
 export const loginUser = async (loginDTO: {
   email: string;
   password: string;

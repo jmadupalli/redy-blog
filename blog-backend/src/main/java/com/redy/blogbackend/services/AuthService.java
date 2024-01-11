@@ -1,9 +1,7 @@
 package com.redy.blogbackend.services;
 
-import com.redy.blogbackend.config.auth.Role;
 import com.redy.blogbackend.controllers.dto.AuthResponse;
 import com.redy.blogbackend.controllers.dto.LoginDTO;
-import com.redy.blogbackend.controllers.dto.RegisterDTO;
 import com.redy.blogbackend.entities.User;
 import com.redy.blogbackend.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,18 +11,14 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 

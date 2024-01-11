@@ -148,11 +148,11 @@ export default function OnBoardForm() {
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
-                <label htmlFor="siteCaption" className="text-sm">
+                <label htmlFor="lastName" className="text-sm">
                   Last Name
                 </label>
                 <input
-                  id="siteCaption"
+                  id="lastName"
                   name="lastName"
                   type="text"
                   placeholder="Last Name"
@@ -163,11 +163,11 @@ export default function OnBoardForm() {
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
-                <label htmlFor="pageSize" className="text-sm">
+                <label htmlFor="email" className="text-sm">
                   Email
                 </label>
                 <input
-                  id="pageSize"
+                  id="email"
                   name="email"
                   type="email"
                   placeholder="Admin email"
@@ -178,11 +178,11 @@ export default function OnBoardForm() {
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
-                <label htmlFor="pageSize" className="text-sm">
+                <label htmlFor="password" className="text-sm">
                   Password
                 </label>
                 <input
-                  id="pageSize"
+                  id="password"
                   name="password"
                   type="password"
                   placeholder="Admin Password"

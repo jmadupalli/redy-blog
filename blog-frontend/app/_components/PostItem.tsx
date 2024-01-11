@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { BlogPost } from "../_providers/api/blogApi";
 
+const makeTitlePretty = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
+};
+
 export default function PostItem({ post }: { post: BlogPost }) {
   return (
     <>
@@ -22,7 +29,7 @@ export default function PostItem({ post }: { post: BlogPost }) {
         </div>
         <div className="mt-3">
           <Link
-            href={`/post/${post.id}/${post.title.replaceAll(" ", "-")}`}
+            href={`/post/${post.id}/${makeTitlePretty(post.title)}`}
             className="text-2xl font-bold hover:underline"
           >
             {post.title}
@@ -31,7 +38,7 @@ export default function PostItem({ post }: { post: BlogPost }) {
         </div>
         <div className="flex items-center justify-between mt-4">
           <Link
-            href={`/post/${post.id}/${post.title.replaceAll(" ", "-")}`}
+            href={`/post/${post.id}/${makeTitlePretty(post.title)}`}
             className="hover:underline text-red-600"
           >
             Read more

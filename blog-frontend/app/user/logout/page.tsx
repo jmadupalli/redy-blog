@@ -5,13 +5,18 @@ import { useEffect } from "react";
 
 export default function LogoutPage() {
   const router = useRouter();
+  const uiLogout = () => {
+    localStorage.clear();
+    router.push("/user/login");
+  };
   useEffect(() => {
     logoutUser()
       .then(() => {
-        localStorage.clear();
-        router.push("/user/login");
+        uiLogout();
       })
-      .catch((err) => {});
+      .catch((err) => {
+        uiLogout();
+      });
   }, [router]);
   return (
     <>

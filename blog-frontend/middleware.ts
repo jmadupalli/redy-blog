@@ -12,8 +12,7 @@ export async function middleware(request: NextRequest) {
 
   const redirectToLogin = () => {
     if (!roleCookie) {
-      request.cookies.delete("userRole");
-      return NextResponse.redirect(new URL("/user/login", request.url));
+      return NextResponse.redirect(new URL("/user/logout", request.url));
     }
     return null;
   };

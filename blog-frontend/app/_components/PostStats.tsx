@@ -17,7 +17,10 @@ export default function PostStats({
   id: number;
   likeCount: number;
 }) {
-  const [like, setLike] = useState({ liked: false, count: likeCount });
+  const [like, setLike] = useState({
+    liked: false,
+    count: likeCount ? likeCount : 0,
+  });
   const [currentURL, setCurrentURL] = useState("");
   const [likePost] = useLikePostMutation();
 

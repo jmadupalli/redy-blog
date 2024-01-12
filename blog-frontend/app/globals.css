@@ -6,18 +6,14 @@
   all: revert;
 }
 
-.post-md-content img {
+.post-md-content :not(li) {
   max-width: 100%;
+  overflow: auto;
 }
 
 .post-md-content blockquote {
   border-left: 4px solid #ccc;
   padding-left: 8px;
-}
-
-.post-md-content code {
-  max-width: 100%;
-  overflow: auto;
 }
 
 :root {

@@ -19,7 +19,7 @@ export default async function Post({ post }: { post: BlogPost }) {
   });
   return (
     <>
-      <article className="max-w-4xl mb-16 px-12 py-12 mx-auto space-y-12 bg-gray-50 rounded-2xl text-gray-900">
+      <article className="max-w-4xl mb-16 px-8 md:px-12 py-12 mx-auto space-y-12 bg-gray-50 rounded-2xl text-gray-900">
         <div className="w-full mx-auto space-y-4 text-center">
           <p className="text-xs font-semibold tracki uppercase">
             {post.keywords.split(",").map((keyword, i) => (

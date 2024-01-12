@@ -8,6 +8,7 @@
 
 .post-md-content :not(li) {
   max-width: 100%;
+  overflow: auto;
 }
 
 .post-md-content blockquote {

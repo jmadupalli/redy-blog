@@ -13,14 +13,14 @@ export default function PostItem({ post }: { post: BlogPost }) {
     <>
       <div className="container max-w-4xl px-10 py-6 mx-auto mb-3 rounded-lg shadow-sm bg-gray-50">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-gray-600 sm:text-xs">
             {new Date(post.createdAt).toDateString()}
           </span>
           <div className="justify-right">
             {post.keywords.split(",").map((keyword, i) => (
               <span
                 key={i}
-                className="px-2 py-1 rounded bg-red-600 text-gray-50 text-sm mr-1"
+                className="px-2 py-1 rounded bg-red-600 text-gray-50 text-sm mr-1 sm:text-xs"
               >
                 #{keyword.trim()}
               </span>

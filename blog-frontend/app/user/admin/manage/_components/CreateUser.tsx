@@ -119,7 +119,7 @@ export default function CreateUserDialog() {
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Current Password"
+                placeholder="Password"
                 className="w-full rounded-md focus:ring focus:ri focus:ri border-gray-300 text-gray-900 col-span-3"
               />
             </div>

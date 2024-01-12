@@ -8,7 +8,9 @@ type Props = {
   params: { id: string; title: string };
 };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post: BlogPost = await fetch(API_URL_SERVER + `/posts/${params.id}`)
+  const post: BlogPost = await fetch(API_URL_SERVER + `/posts/${params.id}`, {
+    next: { revalidate: 3600 },
+  })
     .then((res) => res.json())
     .catch(() => notFound());
 
@@ -30,9 +32,9 @@ export default async function PostPage({
   params: { id: string; title: string };
 }) {
   const postId = parseInt(params.id);
-  const response = await fetch(API_URL_SERVER + `/posts/${postId}`).catch(() =>
-    notFound()
-  );
+  const response = await fetch(API_URL_SERVER + `/posts/${postId}`, {
+    next: { revalidate: 3600 },
+  }).catch(() => notFound());
   const post: BlogPost = await response.json();
   if (response.status != 200) return notFound();
   return (

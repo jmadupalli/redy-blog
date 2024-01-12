@@ -6,10 +6,12 @@ import { useEffect } from "react";
 export default function LogoutPage() {
   const router = useRouter();
   useEffect(() => {
-    logoutUser().then(() => {
-      localStorage.clear();
-      router.push("/user/login");
-    });
+    logoutUser()
+      .then(() => {
+        localStorage.clear();
+        router.push("/user/login");
+      })
+      .catch((err) => {});
   }, [router]);
   return (
     <>
